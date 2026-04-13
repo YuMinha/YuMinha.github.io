@@ -7,9 +7,48 @@
     <label class="sr-only" for="search">
       {{ site.data.ui-text[locale].search_label_text | default: 'Enter your search term...' }}
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="{{ site.data.ui-text[locale].search_placeholder_text | default: 'Enter your search term...' }}" />
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="{{ site.data.ui-text[locale].search_placeholder_text | default: '검색어를 입력하거나 태그를 클릭하세요...' }}" />
   </form>
+
+  <div class="popular-tags" style="margin-top: 1rem; margin-bottom: 1rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      {% for tag in site.tags %}
+        <button 
+          type="button"
+          onclick="triggerSearch('{{ tag[0] }}')" 
+          style="cursor: pointer; font-size: 0.8rem; padding: 5px 12px; background: #3d4144; color: #fff; border-radius: 15px; border: 1px solid #4e5256; transition: 0.2s;"
+          onmouseover="this.style.background='#52565a'"
+          onmouseout="this.style.background='#3d4144'">
+          #{{ tag[0] }} <small style="opacity: 0.6;">{{ tag[1].size }}</small>
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+
   <div id="results" class="results"></div>
+
+  <script>
+    function triggerSearch(tagName) {
+      var searchInput = document.getElementById('search');
+      if (searchInput) {
+        // 1. 값 주입
+        searchInput.value = tagName;
+
+        // 2. 이벤트 강제 발생 (이게 핵심입니다)
+        // Lunr 엔진은 input 이벤트를 감시하고 있으므로 이를 강제로 Dispatch 해줍니다.
+        var inputEvent = new Event('input', { bubbles: true });
+        searchInput.dispatchEvent(inputEvent);
+
+        // 3. 일부 테마 버전에서는 keyup을 기다리기도 하므로 keyup 신호도 보냅니다.
+        var keyupEvent = new KeyboardEvent('keyup', { bubbles: true, key: 'Enter' });
+        searchInput.dispatchEvent(keyupEvent);
+
+        // 4. 입력창에 포커스
+        searchInput.focus();
+      }
+    }
+  </script>
+
   {%- when "google" -%}
   <form onsubmit="return googleCustomSearchExecute();" id="cse-search-box-form-id" role="search">
     <label class="sr-only" for="cse-search-input-box-id">

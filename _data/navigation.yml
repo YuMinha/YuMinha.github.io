@@ -1,12 +1,32 @@
 # main links
 main:
-  - title: "Quick-Start Guide"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "Home"
+    url: "/"
   - title: "About"
-    url: https://mmistakes.github.io/minimal-mistakes/about/
-  - title: "Sample Posts"
-    url: /year-archive/
-  - title: "Sample Collections"
-    url: /collection-archive/
-  - title: "Sitemap"
-    url: /sitemap/
+    url: "/about/"
+  - title: "Archive"
+    url: "/year-archive/"
+  - title: "Category"
+    url: "/categories/"
+
+# sidebar links
+sidebar-category:
+  # 1. 포트폴리오 섹션 (나의 결과물)
+  - title: "Portfolio"
+    children:
+      - title: "🍃 Backend Projects"
+        url: "/portfolio/backend/"
+        # 백엔드 프로젝트
+      - title: "🎮 Game Development"
+        url: "/portfolio/game/"
+        # ScrapLand, 트니튼튼 같은 유니티 프로젝트 기록
+
+  # 2. 유레카 부트캠프 섹션 (나의 성장 기록)
+  - title: "유레카 4기"
+    children:
+      - title: "✍️ Daily Logs (TIL)"
+        url: "/ureka/til/"
+        # 매일 배운 핵심 개념 한 줄이라도 기록하기
+      - title: "🗓️ Weekly Review"
+        url: "/ureka/review/"
+        # 한 주간의 회고와 느낀 점
